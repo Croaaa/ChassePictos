@@ -7,7 +7,8 @@
 // @match      http://www.die2nite.com/*
 
 // @grant      unsafeWindow
-// @updateURL  http://labare.alwaysdata.net/perso/HordesChassePictos.user.js
+// @updateURL  https://github.com/Croaaa/ChassePictos/raw/main/ChassePictos.user.js
+// @downloaURL https://github.com/Croaaa/ChassePictos/raw/main/ChassePictos.user.js
 // ==/UserScript==
 
 var console = unsafeWindow.console;
