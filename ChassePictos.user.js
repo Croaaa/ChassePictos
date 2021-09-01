@@ -1,8 +1,11 @@
 // ==UserScript==
 // @name       Hordes - Chasse aux pictos
-// @version    1.4
+// @version    1.5
 // @match      http://hordes.fr/*
 // @match      http://www.hordes.fr/*
+// @match      http://die2nite.com/*
+// @match      http://www.die2nite.com/*
+
 // @grant      unsafeWindow
 // @updateURL  http://labare.alwaysdata.net/perso/HordesChassePictos.user.js
 // ==/UserScript==
@@ -46,8 +49,85 @@ function addNewEl(type, parent, id, content, attrs) {
 }
 
 /* SCRIPT */
-var allPictos = [['r_heroac', "Actions héroïques", true], ['r_sandb', "Boules de sable !", true], ['r_cmplst', "Campeur de l'au-delà", true], ['r_watgun', "Canons à eau", true], ['r_chstxl', "Chanceux", true], ['r_ebuild', "Construction de Merveilles", true], ['r_surgrp', "Dernière ligne", true], ['r_explo2', "Explorations très lointaines", true], ['r_goodg', "Good Guy", true], ['r_santac', "Le Père Noël est une ordure", true], ['r_maso', "Masochisme", true], ['r_bgum', "Médailles communautaires", true], ['r_ebcstl', "Merveille : Château de sable", true], ['r_ebpmv', "Merveille : PMV géant", true], ['r_ebgros', "Merveille : Roue de Grostas", true], ['r_ebcrow', "Merveille : Statue du Corbeau", true], ['r_surlst', "Mort Ultime !", true], ['r_suhard', "Mort Ultime du Pandémonium !", true], ['r_dinfec', "Morts par Infection", true], ['r_dnucl', "Morts par l'atome", true], ['r_door', "Ouverture de porte", true], ['r_wondrs', "Projets insensés", true], ['r_rp', "Rôliste", true], ['r_batgun', "Super lance-piles", true], ['r_ginfec', "Témoin de la Grande Contamination", true], ['r_tronco', "Tronçonneuses", true], ['r_ptame', "Valeur de l'âme", true], ['r_winthi', "Ville participante", true], 
-['r_alcool', "Alcools", false], ['r_homeup', "Améliorations de maison", false], ['r_cwater', "Arroseur", false], ['r_refine', "Artisanat", false], ['r_solban', "Banni émancipé", false], ['r_ban', "Bannissements", false], ['r_wound', "Blessures", false], ['r_cookr', "Bons p'tits plats", false], ['r_animal', "Boucherie", false], ['r_camp', "Campeur téméraire", false], ['r_cannib', "Cannibalisme", false], ['r_buildr', "Chantiers", false], ['r_nodrug', "Clean", false], ['r_collec', "Collecteur d'âmes", false], ['r_wrestl', "Combats désespérés", false], ['r_cooked', "Cuisine exotique", false], ['r_digger', "Déblaiement", false], ['r_deco', "Décoration", false], ['r_drug', "Drogues", false], ['r_cobaye', "Expérimentations", false], ['r_ruine', "Exploration de ruine", false], ['r_explor', "Explorations avancées", false], ['r_share', "Générosité", false], ['r_guide', "Guide Spirituel", false], ['r_drgmkr', "Laborantin", false], ['r_theft', "Larcins", false], ['r_broken', "Maladresses", false], ['r_forum', "Messages", false], ['r_jtamer', "Métier Apprivoiseur", false], ['r_jrangr', "Métier Éclaireur", false], ['r_jermit', "Métier Ermite", false], ['r_jcolle', "Métier Fouineur", false], ['r_jguard', "Métier Gardien", false], ['r_jtech', "Métier Technicien", false], ['r_dcity', "Morts dans votre lit", false], ['r_dwater', "Morts par Déshydratation", false], ['r_ddrug', "Morts par Manque", false], ['r_dhang', "Morts par Pendaison", false], ['r_mystic', "Mysticisme", false], ['r_doutsd', "Nuits dans le désert", false], ['r_plundr', "Pillages de maison", false], ['r_repair', "Réparations", false], ['r_brep', "Réparations de chantiers", false], ['r_cgarb', "Sorteur", false], ['r_hbuild', "Travaux chez soi", false], ['r_guard', "Veilleur", false], ['r_winbas', "Ville classée", false], ['r_wintop', "Ville légendaire !", false], ['r_killz', "Zombies éliminés", false]];
+var allPictos =
+    [['r_heroac', "Actions héroïques", true],
+     ['r_sandb' , "Boules de sable !", true],
+     ['r_cmplst', "Campeur de l'au-delà", true],
+     ['r_watgun', "Canons à eau", true],
+     ['r_chstxl', "Chanceux", true],
+     ['r_ebuild', "Construction de Merveilles", true],
+     ['r_surgrp', "Dernière ligne", true],
+     ['r_explo2', "Explorations très lointaines", true],
+     ['r_goodg' , "Good Guy", true],
+     ['r_santac', "Le Père Noël est une ordure", true],
+     ['r_maso'  , "Masochisme", true],
+     ['r_bgum'  , "Médailles communautaires", true],
+     ['r_ebcstl', "Merveille : Château de sable", true],
+     ['r_ebpmv' , "Merveille : PMV géant", true],
+     ['r_ebgros', "Merveille : Roue de Grostas", true],
+     ['r_ebcrow', "Merveille : Statue du Corbeau", true],
+     ['r_surlst', "Mort Ultime !", true],
+     ['r_suhard', "Mort Ultime du Pandémonium !", true],
+     ['r_dinfec', "Morts par Infection", true],
+     ['r_dnucl' , "Morts par l'atome", true],
+     ['r_door'  , "Ouverture de porte", true],
+     ['r_wondrs', "Projets insensés", true],
+     ['r_rp'    , "Rôliste", true],
+     ['r_batgun', "Super lance-piles", true],
+     ['r_pande' , "Survivant de l'enfer !", true],
+     ['r_ginfec', "Témoin de la Grande Contamination", true],
+     ['r_tronco', "Tronçonneuses", true],
+     ['r_ptame' , "Valeur de l'âme", true],
+     ['r_winthi', "Ville participante", true],
+     ['r_alcool', "Alcools", false],
+     ['r_homeup', "Améliorations de maison", false],
+     ['r_cwater', "Arroseur", false],
+     ['r_refine', "Artisanat", false],
+     ['r_solban', "Banni émancipé", false],
+     ['r_ban'   , "Bannissements", false],
+     ['r_wound' , "Blessures", false],
+     ['r_cookr' , "Bons p'tits plats", false],
+     ['r_animal', "Boucherie", false],
+     ['r_camp'  , "Campeur téméraire", false],
+     ['r_cannib', "Cannibalisme", false],
+     ['r_buildr', "Chantiers", false],
+     ['r_nodrug', "Clean", false],
+     ['r_collec', "Collecteur d'âmes", false],
+     ['r_wrestl', "Combats désespérés", false],
+     ['r_cooked', "Cuisine exotique", false],
+     ['r_digger', "Déblaiement", false],
+     ['r_deco'  , "Décoration", false],
+     ['r_drug'  , "Drogues", false],
+     ['r_cobaye', "Expérimentations", false],
+     ['r_ruine' , "Exploration de ruine", false],
+     ['r_explor', "Explorations avancées", false],
+     ['r_share' , "Générosité", false],
+     ['r_guide' , "Guide Spirituel", false],
+     ['r_drgmkr', "Laborantin", false],
+     ['r_theft' , "Larcins", false],
+     ['r_broken', "Maladresses", false],
+     ['r_forum' , "Messages", false],
+     ['r_jtamer', "Métier Apprivoiseur", false],
+     ['r_jrangr', "Métier Éclaireur", false],
+     ['r_jermit', "Métier Ermite", false],
+     ['r_jcolle', "Métier Fouineur", false],
+     ['r_jguard', "Métier Gardien", false],
+     ['r_jtech' , "Métier Technicien", false],
+     ['r_dcity' , "Morts dans votre lit", false],
+     ['r_dwater', "Morts par Déshydratation", false],
+     ['r_ddrug' , "Morts par Manque", false],
+     ['r_dhang' , "Pendaisons", false],
+     ['r_mystic', "Mysticisme", false],
+     ['r_doutsd', "Nuits dans le désert", false],
+     ['r_plundr', "Pillages de maison", false],
+     ['r_repair', "Réparations", false],
+     ['r_brep'  , "Réparations de chantiers", false],
+     ['r_cgarb' , "Sorteur", false],
+     ['r_hbuild', "Travaux chez soi", false],
+     ['r_guard' , "Veilleur", false],
+     ['r_winbas', "Ville classée", false],
+     ['r_wintop', "Ville légendaire !", false],
+     ['r_killz' , "Zombies éliminés", false]];
 
 var popup = addNewEl('div', document.body, 'HCP-popup');
 popup.style.position = 'fixed';
