@@ -5,6 +5,7 @@
 // @match      http://www.hordes.fr/*
 // @match      http://die2nite.com/*
 // @match      http://www.die2nite.com/*
+// @icon       http://data.twinoid.com/proxy/www.zombinoia.com/gfx/forum/smiley/h_exploration.gif
 
 // @grant      unsafeWindow
 // @updateURL  https://github.com/Croaaa/ChassePictos/raw/main/ChassePictos.user.js
